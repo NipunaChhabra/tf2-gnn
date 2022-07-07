@@ -11,6 +11,7 @@ from tf2_gnn.cli_utils import get_train_cli_arg_parser, run_train_from_args
 
 
 def run():
+    print("train run")
     parser = get_train_cli_arg_parser()
     args, potential_hyperdrive_args = parser.parse_known_args()
 

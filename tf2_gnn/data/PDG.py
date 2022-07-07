@@ -56,6 +56,7 @@ class  PDGDataset(JsonLGraphDataset[GraphPDGSample]):
         self, params: Dict[str, Any], metadata: Optional[Dict[str, Any]] = None, **kwargs,
     ):
         super().__init__(params, metadata=metadata, **kwargs)
+        print(params)
         self._threshold_for_classification = params["threshold_for_classification"]
 
     @property

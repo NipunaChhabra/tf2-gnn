@@ -20,6 +20,7 @@ def test(
     _, _, test_results = model.run_one_epoch(test_data, training=False, quiet=quiet)
     test_metric, test_metric_string = model.compute_epoch_metrics(test_results)
     log_fun(test_metric_string)
+    print("def test")
 
 
 def run_from_args(args) -> None:
@@ -33,6 +34,7 @@ def run_from_args(args) -> None:
         cli_model_hyperparameter_overrides=args.model_param_override,
         folds_to_load={DataFold.TEST},
     )
+    print("run_from_args")
     test(model, dataset, lambda msg: print(msg), quiet=args.quiet)
 
 
