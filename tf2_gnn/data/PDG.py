@@ -47,6 +47,7 @@ class  PDGDataset(JsonLGraphDataset[GraphPDGSample]):
             "num_fwd_edge_types": 2,
             "add_self_loop_edges": False,
             "tie_fwd_bkwd_edges": False,
+            "threshold_for_classification": None,
         }
         super_hypers.update(this_hypers)
         return super_hypers
