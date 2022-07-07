@@ -101,7 +101,7 @@ register_task(
 register_task(
     task_name="PDG",
     dataset_class=PDGDataset,
-    dataset_default_hypers={},
+    dataset_default_hypers={"threshold_for_classification": 23.0},
     model_class=RGAT_MultiClass,
     model_default_hypers={},
 )
