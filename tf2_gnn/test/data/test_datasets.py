@@ -11,6 +11,7 @@ from tf2_gnn.data.graph_dataset import DataFold, GraphDataset, GraphSampleType
 from tf2_gnn.data.jsonl_graph_property_dataset import JsonLGraphPropertyDataset
 from tf2_gnn.data.ppi_dataset import PPIDataset
 from tf2_gnn.data.qm9_dataset import QM9Dataset
+from tf2_gnn.data.PDG import PDGDataset
 
 
 class TestExpectedValues(NamedTuple):
@@ -117,6 +118,7 @@ def jsonl_test_case():
             self_loop_edge_type=0,
         ),
     )
+
 
 
 @pytest.fixture

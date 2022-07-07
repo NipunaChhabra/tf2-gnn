@@ -6,8 +6,9 @@ from ..models import (
     GraphRegressionTask,
     GraphBinaryClassificationTask,
     QM9RegressionTask,
+    RGAT_MultiClass
 )
-from ..data import GraphDataset, JsonLGraphPropertyDataset, QM9Dataset, PPIDataset
+from ..data import GraphDataset, JsonLGraphPropertyDataset, QM9Dataset, PPIDataset, PDGDataset
 
 
 class TaskInfo(NamedTuple):
@@ -94,5 +95,13 @@ register_task(
     dataset_class=JsonLGraphPropertyDataset,
     dataset_default_hypers={"threshold_for_classification": 23.0},
     model_class=GraphBinaryClassificationTask,
+    model_default_hypers={},
+)
+
+register_task(
+    task_name="PDG",
+    dataset_class=PDGDataset,
+    dataset_default_hypers={},
+    model_class=RGAT_MultiClass,
     model_default_hypers={},
 )
