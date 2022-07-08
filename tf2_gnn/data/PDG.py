@@ -101,6 +101,6 @@ class  PDGDataset(JsonLGraphDataset[GraphPDGSample]):
         return GraphBatchTFDataDescription(
             batch_features_types=data_description.batch_features_types,
             batch_features_shapes=data_description.batch_features_shapes,
-            batch_labels_types={**data_description.batch_labels_types, "Label": np.ndarray},
-            batch_labels_shapes={**data_description.batch_labels_shapes, "Label": (None,None)},
+            batch_labels_types={**data_description.batch_labels_types, "Label": tf.float32},
+            batch_labels_shapes={**data_description.batch_labels_shapes, "Label": (None,)},
         )
