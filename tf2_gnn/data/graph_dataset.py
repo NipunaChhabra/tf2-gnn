@@ -76,7 +76,7 @@ class GraphDataset(Generic[GraphSampleType]):
         self,
         params: Dict[str, Any],
         metadata: Optional[Dict[str, Any]] = None,
-        use_worker_threads: bool = True,
+        use_worker_threads: bool = False,
     ):
         self._params = params
         self._metadata = metadata if metadata is not None else {}

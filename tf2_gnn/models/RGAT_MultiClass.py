@@ -9,8 +9,8 @@ from tf2_gnn.models.graph_regression_task import GraphRegressionTask
 
 
 class GraphMultiClassClassificationTask(GraphRegressionTask):
+    
     @classmethod
-    @property
     def get_default_hyperparameters(
         cls, mp_style: Optional[str] = None
     ) -> Dict[str, Any]:
