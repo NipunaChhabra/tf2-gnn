@@ -237,6 +237,7 @@ class GraphDataset(Generic[GraphSampleType]):
         batch_features["node_features"] = np.array(raw_batch["node_features"])
         batch_features["node_to_graph_map"] = np.concatenate(raw_batch["node_to_graph_map"])
         batch_features["num_graphs_in_batch"] = raw_batch["num_graphs_in_batch"]
+        # batch_labels["Label"] = raw_batch["Label"]
         for i, adjacency_list in enumerate(raw_batch["adjacency_lists"]):
             if len(adjacency_list) > 0:
                 batch_features[f"adjacency_list_{i}"] = np.concatenate(adjacency_list)

@@ -5,10 +5,10 @@ import numpy as np
 import tensorflow as tf
 
 from tf2_gnn.data import GraphDataset
-from tf2_gnn.models.graph_regression_task import GraphRegressionTask
+from tf2_gnn.models.PDGR import PDGRTask
 
 
-class GraphMultiClassClassificationTask(GraphRegressionTask):
+class GraphMultiClassClassificationTask(PDGRTask):
     
     @classmethod
     def get_default_hyperparameters(
@@ -29,8 +29,10 @@ class GraphMultiClassClassificationTask(GraphRegressionTask):
         per_graph_regression_results = super().compute_task_output(
             batch_features, final_node_representations, training
         )
-
-        return tf.nn.softmax(per_graph_regression_results)
+        # Sigmoid to Softmax
+        out = tf.nn.softmax(per_graph_regression_results)
+        print("!!!Shape after Softmax")
+        return tf.reshape(out, [5,])
 
     def compute_task_metrics(
         self,
@@ -38,10 +40,12 @@ class GraphMultiClassClassificationTask(GraphRegressionTask):
         task_output: Any,
         batch_labels: Dict[str, tf.Tensor],
     ) -> Dict[str, tf.Tensor]:
+        print("!!batch_labels"," ", type(batch_labels["Label"]), " ", len(batch_labels["Label"])," ",(batch_labels["Label"]))
+        print("!!task output", " ", type(task_output), " ", len(task_output)," ", task_output[0])
         ce = tf.reduce_mean(
             #labels as integers - SparseCategoricalCrossentropy loss
             #labels as 1-hot - CategoricalCrossentropy loss 
-            tf.keras.losses.CategoricalCrossentropy(
+            tf.keras.losses.categorical_crossentropy(
                 y_true=batch_labels["Label"],
                 y_pred=task_output,
                 from_logits=False,
@@ -49,7 +53,7 @@ class GraphMultiClassClassificationTask(GraphRegressionTask):
         )
         num_correct = tf.reduce_sum(
             tf.cast(
-                tf.math.equal(batch_labels["Label"], tf.math.round(task_output)),
+                tf.math.equal(batch_labels["Label"], (task_output)),
                 tf.int32,
             )
         )
@@ -75,7 +79,7 @@ class GraphMultiClassClassificationTask(GraphRegressionTask):
         import sklearn.metrics as metrics
 
         predictions = self.predict(dataset).numpy()
-        rounded_preds = np.round(predictions)
+        # rounded_preds = np.round(predictions)
         labels = []
         for _, batch_labels in dataset:
             labels.append(batch_labels["Label"])
@@ -91,13 +95,13 @@ class GraphMultiClassClassificationTask(GraphRegressionTask):
             average_precision = np.nan
 
         metrics = dict(
-            acc=metrics.accuracy_score(y_true=labels, y_pred=rounded_preds),
+            acc=metrics.accuracy_score(y_true=labels, y_pred=predictions),
             balanced_acc=metrics.balanced_accuracy_score(
-                y_true=labels, y_pred=rounded_preds
+                y_true=labels, y_pred=predictions
             ),
-            precision=metrics.precision_score(y_true=labels, y_pred=rounded_preds),
-            recall=metrics.recall_score(y_true=labels, y_pred=rounded_preds),
-            f1_score=metrics.f1_score(y_true=labels, y_pred=rounded_preds),
+            precision=metrics.precision_score(y_true=labels, y_pred=predictions),
+            recall=metrics.recall_score(y_true=labels, y_pred=predictions),
+            f1_score=metrics.f1_score(y_true=labels, y_pred=predictions),
             roc_auc=roc_auc,
             average_precision=average_precision,
         )

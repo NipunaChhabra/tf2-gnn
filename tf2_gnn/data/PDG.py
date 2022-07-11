@@ -93,7 +93,9 @@ class  PDGDataset(JsonLGraphDataset[GraphPDGSample]):
 
     def _finalise_batch(self, raw_batch) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         batch_features, batch_labels = super()._finalise_batch(raw_batch)
+        # initialized batch labels
         batch_labels["Label"] = np.concatenate(raw_batch["Label"], axis=0)
+        # print(batch_labels["Label"])
         return batch_features, batch_labels
 
     def get_batch_tf_data_description(self) -> GraphBatchTFDataDescription:
@@ -102,5 +104,5 @@ class  PDGDataset(JsonLGraphDataset[GraphPDGSample]):
             batch_features_types=data_description.batch_features_types,
             batch_features_shapes=data_description.batch_features_shapes,
             batch_labels_types={**data_description.batch_labels_types, "Label": tf.float32},
-            batch_labels_shapes={**data_description.batch_labels_shapes, "Label": (None,)},
+            batch_labels_shapes={**data_description.batch_labels_shapes, "Label": (5,)},
         )
